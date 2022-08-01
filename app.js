@@ -1,89 +1,84 @@
 console.log('campominato')
 
 // seleziona container griglia
-const gridContainer = document.getElementById('container')
+const gridContainer = document.getElementById('container');
 
-//pulsanti difficoltà
-const easyBttn = document.getElementById('easy')
-const mediumBttn = document.getElementById('medium')
-const hardBttn = document.getElementById('hard')
+// seleziona bottoni selezione difficoltà
+const easyBttn = document.getElementById("easy");
+const mediumBttn = document.getElementById("medium");
+const hardBttn = document.getElementById("hard");
 
-let difficultNum = ''
-// PUNTEGGIO
-let points = 0
+let difficultyNum = '';
 
-// NOTIFICHE VITTORIA O SCONFITTA
-const winAlert = document.getElementById('win')
-const loseAlert = document.getElementById('lose')
+let points = 0;
 
-//aggiungiamo funzioni ai pulsanti
+// alert vittoria e sconfitta
+const loseAlert = document.getElementById('lose');
+const winAlert = document.getElementById('win');
 
 easyBttn.addEventListener('click', 
- function() {
-   difficultNum = 100
-   points = 0
-   loseAlert.style.display = 'none'
-   winAlert.style.display = 'none'
+    function() {
+        difficultyNum = 100;
+        points = 0;
+        loseAlert.style.display = 'none';
+        winAlert.style.display = 'none';
 
-   gridContainer.innerHTML = ''
+        gridContainer.innerHTML = "";
 
-   gridDifficult(difficultNum, "squareEasy")
+        gridDifficulty(difficultyNum, "squareEasy")
 
-   squareClick('[class^="square"]', 'bombPlace')
-
- }
-)
+        squareClick('[class^="square"]', 'bombPlace')
+    }
+);
 
 mediumBttn.addEventListener('click', 
- function() {
-   difficultNum = 81
-   points = 0
-   loseAlert.style.display = 'none'
-   winAlert.style.display = 'none'
+    function() {
+        difficultyNum = 81;
+        points = 0;
+        loseAlert.style.display = 'none';
+        winAlert.style.display = 'none';
 
-   gridContainer.innerHTML = ''
+        gridContainer.innerHTML = "";
 
-   gridDifficult(difficultNum, "squareMedium")
+        gridDifficulty(difficultyNum, "squareMedium") 
 
-   squareClick('[class^="square"]', 'bombPlace')
-
- }
-)
+        squareClick('[class^="square"]', 'bombPlace')
+    }
+    
+);
 
 hardBttn.addEventListener('click', 
- function() {
-   difficultNum = 49
-   points = 0
-   loseAlert.style.display = 'none'
-   winAlert.style.display = 'none'
+    function() {
+        difficultyNum = 49;
+        points = 0;
+        loseAlert.style.display = 'none';
+        winAlert.style.display = 'none';
 
-   gridContainer.innerHTML = ''
+        gridContainer.innerHTML = "";
 
-   gridDifficult(difficultNum, "squareHard")
+        gridDifficulty(difficultyNum, "squareHard")
 
-   squareClick('[class^="square"]', 'bombPlace')
+        squareClick('[class^="square"]', 'bombPlace')
+    }
+);
 
- }
-)
 
-//GENERIAMO IL QUADRATO
+// genera il quadrato
 function squareGenerator(x, y) {
-    let gridSquare = document.createElement(x)
-    gridSquare.classList.add(y)
+    let gridSquare = document.createElement(x);
+    gridSquare.classList.add(y);
     return gridSquare
 }
 
-//generiamo la griglia basata sulla difficoltà
+// genera la griglia di quadrati a seconda della difficoltà
+function gridDifficulty(x, y) {
+    for (let i = 0; i < x; i++) {
+        let newElem = squareGenerator("div", y);
+        gridContainer.appendChild(newElem);
+    }
 
-function gridDifficult(x,y) {
-  for (let i= 0; i < x; i++) {
-    let newEl = squareGenerator("div", y)
-    gridContainer.append(newEl)
-  }
-
-
-  //generiamo i singoli quadrati numerati
-  let squareSelector = document.querySelectorAll('[class^="square"]');
+    // genera i quadrati con il numero all'interno
+    let squareSelector = document.querySelectorAll('[class^="square"]');
     let squareArr = [];
     for (let i = 0; i < squareSelector.length; i++) {
         squareSelector[i].innerText = i + 1;
@@ -91,15 +86,76 @@ function gridDifficult(x,y) {
     }
     console.log(squareSelector);
 
-    //generatore random array per bombe
-    let bombArray = []
-    while (bombArray.length < 16) { //numero di bombe previste
-        let bombNum = Math.floor(Math.random() * difficultNum) + 1
-        if (bombArray.includes(bombNum) == false ) {
-            bombArray.push(bombNum)
+    // genera l'array di bombe
+    let bombArray = [];
+    while (bombArray.length < 16) {
+        let bombNum = Math.floor(Math.random() * difficultyNum) + 1;
+        if (bombArray.includes(bombNum) == false) {
+            bombArray.push(bombNum);
+        }
+    }
+    console.log(bombArray);
+
+    // se il quadrato ha un numero presente nell'array di bombe allora imposto una classe placeholder NON ANCORA COPIATA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    for (i = 0; i < squareArr.length; i++) {
+        if (bombArray.includes(squareArr[i]))
+        squareSelector[i].classList.add('bombPlace');
+    }
+}
+
+
+
+// click sul singolo quadratino
+function squareClick(x, y) {
+    let squareSelector = document.querySelectorAll(x);
+    let bombSelector = [];
+    console.log(squareSelector);
+
+    
+    
+    // se il quadratino ha la classe placeholder della bomba lo metto in un array 
+    for (let i = 0; i < squareSelector.length; i++) {
+        if (squareSelector[i].classList.contains(y)) {
+            bombSelector.push(squareSelector[i]);
+        }
+    }
+    
+    console.log(bombSelector);
+
+
+    for (let i = 0; i < squareSelector.length; i++) {
+
+        // funzione per i quadratini normali, dopo essere stato cliccato una volta blocca il click, evitando che il punteggio salga ricliccando sullo stesso quadratino
+        function activeClick() {
+            squareSelector[i].classList.add('active');
+            points++
+
+            if (points == difficultyNum - 16) {
+                winAlert.style.display = 'block';
+                winAlert.innerHTML = `Hai vinto! &#9996 Hai evitato tutte le bombe con successo ottenendo ${points} punti. GRANDE!`
+            }
+            
+            console.log(points);
+            squareSelector[i].removeEventListener('click', activeClick);
+        
         }
 
+        if (squareSelector[i].classList.contains(y)) {
+            // se il quadratino cliccato ha la classe placeholder imposto la classe bomb che fa diventare lo sfondo rosso a tutti i quadratini bomba 
+            squareSelector[i].addEventListener('click',
+                function() {
+                    for (let i = 0; i < bombSelector.length; i++) {
+                        bombSelector[i].classList.add('bomb');
+                    }
+                    loseAlert.style.display = 'block';
+                    loseAlert.innerHTML = `Hai perso! &#9760 Il tuo punteggio è ${points}`
+                }
+            );
+        } else {
+            // se il quadratino cliccato non è una bomba cambio lo sfondo in azzurro e aumento il contatore dei punti (richiama la funzione creata all'inizio del ciclo)
+            squareSelector[i].addEventListener('click', activeClick);
+        }
     }
-   console.log(bombArray)
+
 }
 
