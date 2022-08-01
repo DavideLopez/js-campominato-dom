@@ -23,7 +23,7 @@ header > div {
 }
 
 .btn {
-    background-color: aqua;
+    background-color: white;
     padding: 10px 30px;
     margin: 0 20px;
     border-radius: 30px;
@@ -32,7 +32,7 @@ header > div {
 }
 
 .btn:hover {
-    box-shadow: 0px 0px 5px 2px white;
+    box-shadow: 0px 0px 5px 2px aqua;
 }
 
 /* .btn:active{
@@ -45,8 +45,8 @@ main {
 
 #container {
     max-width: 900px;
-    height: 900px;
-    background-color: blue;
+    /* height: 900px; */
+    background-color: aqua;
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
@@ -60,5 +60,42 @@ main {
     align-items: center;
     color: white;
     font-size: 2rem;
-  }
+}
 
+.squareEasy {
+    width: 10%;
+    height: 10%;
+}
+
+.squareMedium {
+    width: calc(100% / 9);
+    height: calc(100% / 9);
+}
+
+.squareHard {
+    width: calc(100% / 7);
+    height: calc(100% / 7);
+}
+
+.bomb {
+    background-color: tomato;
+    font-weight: bold;
+    cursor: not-allowed;
+}
+
+.active {
+    background-color: lime;
+    cursor: not-allowed;
+}
+
+.alert {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 100px;
+    background-color: white;
+    border-radius: 30px;
+    font-size: 3rem;
+    display: none;
+}
