@@ -63,8 +63,8 @@ header > div {
   }
 
 .squareEasy {
-    width: 10%;
-    height: 10%;
+    width: calc(100% / 10);
+    height: calc(100% / 10);
 }
 
 
