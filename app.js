@@ -8,7 +8,7 @@ const easyBttn = document.getElementById("easy");
 const mediumBttn = document.getElementById("medium");
 const hardBttn = document.getElementById("hard");
 
-let difficultyNum = '';
+let difficultNum = '';
 
 let points = 0;
 
@@ -18,14 +18,14 @@ const winAlert = document.getElementById('win');
 
 easyBttn.addEventListener('click', 
     function() {
-        difficultyNum = 100;
+        difficultNum = 100;
         points = 0;
         loseAlert.style.display = 'none';
         winAlert.style.display = 'none';
 
         gridContainer.innerHTML = "";
 
-        gridDifficulty(difficultyNum, "squareEasy")
+        gridDifficult(difficultNum, "squareEasy")
 
         squareClick('[class^="square"]', 'bombPlace')
     }
@@ -33,14 +33,14 @@ easyBttn.addEventListener('click',
 
 mediumBttn.addEventListener('click', 
     function() {
-        difficultyNum = 81;
+        difficultNum = 81;
         points = 0;
         loseAlert.style.display = 'none';
         winAlert.style.display = 'none';
 
         gridContainer.innerHTML = "";
 
-        gridDifficulty(difficultyNum, "squareMedium") 
+        gridDifficult(difficultNum, "squareMedium") 
 
         squareClick('[class^="square"]', 'bombPlace')
     }
@@ -49,14 +49,14 @@ mediumBttn.addEventListener('click',
 
 hardBttn.addEventListener('click', 
     function() {
-        difficultyNum = 49;
+        difficultNum = 49;
         points = 0;
         loseAlert.style.display = 'none';
         winAlert.style.display = 'none';
 
         gridContainer.innerHTML = "";
 
-        gridDifficulty(difficultyNum, "squareHard")
+        gridDifficult(difficultNum, "squareHard")
 
         squareClick('[class^="square"]', 'bombPlace')
     }
@@ -71,7 +71,7 @@ function squareGenerator(x, y) {
 }
 
 // genera la griglia di quadrati a seconda della difficoltà
-function gridDifficulty(x, y) {
+function gridDifficult(x, y) {
     for (let i = 0; i < x; i++) {
         let newElem = squareGenerator("div", y);
         gridContainer.appendChild(newElem);
@@ -89,7 +89,7 @@ function gridDifficulty(x, y) {
     // genera l'array di bombe
     let bombArray = [];
     while (bombArray.length < 16) {
-        let bombNum = Math.floor(Math.random() * difficultyNum) + 1;
+        let bombNum = Math.floor(Math.random() * difficultNum) + 1;
         if (bombArray.includes(bombNum) == false) {
             bombArray.push(bombNum);
         }
@@ -130,7 +130,7 @@ function squareClick(x, y) {
             squareSelector[i].classList.add('active');
             points++
 
-            if (points == difficultyNum - 16) {
+            if (points == difficultNum - 16) {
                 winAlert.style.display = 'block';
                 winAlert.innerHTML = `Hai vinto! &#9996 Hai evitato tutte le bombe con successo ottenendo ${points} punti. GRANDE!`
             }

@@ -95,9 +95,9 @@ header > div {
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 100px;
-    background-color: #f4a261;
-    color: #ffffff;
+    background-color: gold;
     border-radius: 30px;
     font-size: 2rem;
     display: none;
+    border: 3px solid black;
 }
